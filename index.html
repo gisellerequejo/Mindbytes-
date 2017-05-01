@@ -65,7 +65,7 @@
       controls.target.set(
         camera.position.x,
         camera.position.y + 1,//worked her
-        camera.position.z - 0.5
+        camera.position.z - .5
       );
       controls.noZoom = true;
       controls.noPan = true;
@@ -147,16 +147,16 @@
           var colheight = yscale(d.all);
           var columngeo = new THREE.BoxGeometry(columnwidth, colheight, columnwidth);
           var columnmesh = new THREE.Mesh(columngeo, columnmaterial);
-          columnmesh.position.set(xscale(i), colheight/2 + marginbottom, 8); //Worked hereBox geometry is positioned at its’ center, so we need to move it up by half the height
+          columnmesh.position.set(xscale(i), colheight/2 + marginbottom, 0); //Worked hereBox geometry is positioned at its’ center, so we need to move it up by half the height
 
           scene.add(columnmesh);
         });
 
-        yscale.ticks(7).forEach(function(t, i, a){
+        yscale.ticks(10).forEach(function(t, i, a){
           //Draw label
-          var label = createType({text: "" + (t/1000000), size: 1.5});
+          var label = createType({text: "" +(t) , size: 2});//1000000
           var xOffset = ( label.geometry.boundingBox.max.x - label.geometry.boundingBox.min.x );
-          label.position.set(-chartwidth/2 - xOffset - 5, yscale(t) + marginbottom - 1.5, 0);
+          label.position.set(-chartwidth/2 - xOffset , yscale(-t)-60 + marginbottom - 1.5, 0);
           scene.add(label);
 
           //Draw line
@@ -173,21 +173,29 @@
 
       });
 
-      function population(d) {
-        d.all = +d.all;
-        return d;
-      }
+	function population(d) {
 
-      var title = createType({text: "Midway Statistics in Real Time"});
-      title.position.set(-chartwidth/2, chartheight +10, -5);
+   	 d.all = +d.all;
+  
+	 d.male = +d.male;
+  
+	 d.female = +d.female;
+
+ 	 return d;
+
+	}	
+      var title = createType({text: "Marginal Effective Rate in 2018 "});
+      title.position.set(-chartwidth/2, chartheight +20, -5);
       scene.add(title);
-
+ var x100label = createType({text: "            .            .         .          .          .      .                       .                                          .                                    .           .                    .                                    .             .                                          .                                          .                                    .           Midway Login Users     .                  .                            .                                 . .                      Number of Projects.                               .                                    .                                      .                                                                                                                             .                                                 .                                                                                                                                                                                                                                                                                                         	            .                                                              .", size: .9});
+      var xOffset = ( (x100label.geometry.boundingBox.max.x - x100label.geometry.boundingBox.min.x)/2 );
+      x100label.position.set(chartwidth/2 - xOffset, 9,8);
+      scene.add(x100label);
 
       var xzerolabel = createType({text: "", size: 1.5});
      xzerolabel.position.set(-chartwidth/2,3,20, 3);
       scene.add(xzerolabel);
 
-     var x100label = createType({text: "            .            .         .          .          .      .                       .                                          .                                    .           .                    .                                    .             .                                          .                                          .                                    .           Midway Login Users     .                  .                            .                                 . .                      Number of Projects.                               .                                    .                                      .                                                                                                                             .                                                 .                                                                                                                                                                                                                                                                                                         	            .                                                              .", size: .9});
       var xOffset = ( (x100label.geometry.boundingBox.max.x - x100label.geometry.boundingBox.min.x)/2 );
       x100label.position.set(chartwidth/2 - xOffset, 9,8);
       scene.add(x100label);
